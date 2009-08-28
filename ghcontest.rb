@@ -7,8 +7,7 @@ class GHContest
 
   def initialize
     #read_data; read_users; dump_data
-    load_data
-    crunch
+    load_data; crunch
   end
 
   def read_data
@@ -52,7 +51,7 @@ class GHContest
 
     while !f.eof? do
       line = f.readline
-      user = line.chomp.map { |x| x.to_i }
+      user = line.chomp.map { |x| x.to_i }[0]
       @users[user] = []
     end
 
@@ -93,11 +92,18 @@ class GHContest
 
   def crunch
     print "Crunching\n"
-    popular = @repos.sort_by { |x| -x[1].size }[0,10]
-    res = popular.map { |x| x[0]}.join(',')
+    popular = @repos.sort_by { |x| -x[1].size }[0, 50]
+    res = popular.map { |x| x[0]}
     f = File.open('results.txt', 'w+')
-    @users.each do |user|
-      f.write "#{user}:#{res}\n"
+    @users.each_pair do |user, empty|
+      #debugger
+      if user_hash = @uhash[user]
+        #debugger
+        ures = (res - user_hash.keys)[0, 10]
+      else
+        ures = res[0, 10]
+      end
+      f.write "#{user}:#{ures.join(',')}\n"
     end
     f.close
     #debugger
