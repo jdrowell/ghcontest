@@ -1,5 +1,6 @@
 For the Github contest.
 
 - Returning a simple "most popular" for all users gives us a 266 (5.555%). Lots of those in the scoreboard so I guess it's a good starting point ;)
+- Removing already watched repos: 280 (5.847%)
 
 
