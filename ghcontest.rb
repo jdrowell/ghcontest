@@ -118,15 +118,16 @@ class GHContest
             sugg[lrepo] = prev + count
           end
         end
-        #debugger
         ures = sugg.sort_by { |x| -x[1] }[0, 10].collect { |x| x[0] }
+        if ures.size < 10
+          ures = (ures + res[0, 10]).uniq[0, 10]
+        end
       else
         ures = res[0, 10]
       end
       f.write "#{user}:#{ures.join(',')}\n"
     end
     f.close
-    #debugger
   end 
 end
 
